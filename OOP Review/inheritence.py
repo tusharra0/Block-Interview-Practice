@@ -1,19 +1,3 @@
-
-class Cat:
-    def __init__(self,name,age):
-        self.name = name 
-        self.age = age 
-    def speak(self):
-        print("Meow")
-
-class Dog:
-    def __init__(self,name,age):
-        self.name = name 
-        self.age = age
-    
-    def speak(self):
-        print("Bark")
-
 # Dont need to rewrite them, only thing specific to dog and cat is the speak method 
 
 class Pet:
@@ -43,3 +27,7 @@ class Dog(Pet):
 
     def speak(self):
         print("Bark")
+
+
+
+

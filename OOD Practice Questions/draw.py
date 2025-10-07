@@ -46,19 +46,45 @@ class Point(Shape):
         canvas.set_pixel(self.x,self.y)
 
 class Line(Shape):
-    def __init__(self,x1,y1,x2,y2):
+    def __init__(self, x1, y1, x2, y2):
         self.x1 = x1 
         self.x2 = x2
         self.y1 = y1
         self.y2 = y2
     
-    def draw(self,canvas):
+    def draw(self, canvas):
+        # vertical
         if self.x1 == self.x2:
-            for i in range(min(self.y1,self.y2),max(self.y1,self.y2)+1):
-                canvas.set_pixel(self.x1,i)
+            for i in range(min(self.y1, self.y2), max(self.y1, self.y2) + 1):
+                canvas.set_pixel(self.x1, i)
+        
+        # horizontal
         elif self.y1 == self.y2:
-            for i in range(min(self.x1,self.x2),max(self.x1,self.x2)+1):
-                canvas.set_pixel(i,self.y1)
+            for i in range(min(self.x1, self.x2), max(self.x1, self.x2) + 1):
+                canvas.set_pixel(i, self.y1)
+        
+        # diagonal or general slope (Bresenham’s algorithm)
+        else:
+            x1, y1, x2, y2 = self.x1, self.y1, self.x2, self.y2
+
+            dx = abs(x2 - x1)
+            dy = abs(y2 - y1)
+            sx = 1 if x1 < x2 else -1
+            sy = 1 if y1 < y2 else -1
+            err = dx - dy
+
+            while True:
+                canvas.set_pixel(x1, y1)
+                if x1 == x2 and y1 == y2:
+                    break
+                e2 = 2 * err
+                if e2 > -dy:
+                    err -= dy
+                    x1 += sx
+                if e2 < dx:
+                    err += dx
+                    y1 += sy
+
 
 class Rectangle(Shape):
     def __init__(self,x1,y1,x2,y2):
