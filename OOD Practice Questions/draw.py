@@ -64,7 +64,7 @@ class Line(Shape):
             for i in range(min(self.x1, self.x2), max(self.x1, self.x2) + 1):
                 canvas.set_pixel(i, self.y1)
         
-        # diagonal or general slope (Bresenham’s algorithm)
+        # diagonal
         else:
             print("inside diag")
             x1, y1, x2, y2 = self.x1, self.y1, self.x2, self.y2
