@@ -53,6 +53,7 @@ class Line(Shape):
         self.y2 = y2
     
     def draw(self, canvas):
+        print("Inside draw")
         # vertical
         if self.x1 == self.x2:
             for i in range(min(self.y1, self.y2), max(self.y1, self.y2) + 1):
@@ -65,25 +66,33 @@ class Line(Shape):
         
         # diagonal or general slope (Bresenham’s algorithm)
         else:
+            print("inside diag")
             x1, y1, x2, y2 = self.x1, self.y1, self.x2, self.y2
 
-            dx = abs(x2 - x1)
-            dy = abs(y2 - y1)
-            sx = 1 if x1 < x2 else -1
-            sy = 1 if y1 < y2 else -1
-            err = dx - dy
+            if y1 > y2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
 
-            while True:
-                canvas.set_pixel(x1, y1)
-                if x1 == x2 and y1 == y2:
-                    break
-                e2 = 2 * err
-                if e2 > -dy:
-                    err -= dy
-                    x1 += sx
-                if e2 < dx:
-                    err += dx
-                    y1 += sy
+            dx = x2 - x1
+            dy = y2 - y1
+            
+
+            slope = dy/dx
+
+            print("before abs(slop ==1)")
+            if abs(slope)==1:
+                print("before x1>x2")
+
+                x_step = 1 if x2 > x1 else -1
+                y =y1
+
+                print("before for loop")
+                for x in range(x1,x2+x_step,x_step):
+                    print("Inside the line forloop")
+                    canvas.set_pixel(x,y)
+                    y+=1
+            else:
+                print(f"Unsupported slope {slope}")
+                
 
 
 class Rectangle(Shape):
@@ -103,20 +112,10 @@ class Rectangle(Shape):
 
 if __name__ == "__main__":
     canvas= Canvas(10,15)
-    p = Point(2,3)
-    p.draw(canvas)
 
-    l1 = Line(0, 0, 5, 0)
-    l1.draw(canvas)
-
-    l2 = Line(0, 0, 0, 5)
+    l2 = Line(3, 5, 6, 2)
     l2.draw(canvas)
-
-    rect = Rectangle(1, 1, 4, 4)
-    rect.draw(canvas)
-
     canvas.show_canvas()
-
 
 
 
