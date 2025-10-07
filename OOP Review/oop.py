@@ -4,13 +4,11 @@
 class Dog:
     def __init__(self,name):
         self.name = name # attribute of class dog which is one 
-        print(name)
-
-    def add_one(self,x):
-        return x+1
+    def get_name(self):
+        return self.name
+    def set_name(self,name):
+        self.name = name
     
-    def bark(self):
-        print("bark")
 
 d = Dog("Tim")
 d.bark()
