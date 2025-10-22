@@ -30,24 +30,51 @@
 #
 # Return a pointer to the root node of that tree.
 # ------------------------------------------------------------
+from collections import Counter 
 import heapq
 
 class Node:
-    def __init__(self,char,count):
-        self.char = char
-        self.count = count 
+    def __init__(self,char,freq):
+        self.char = char 
+        self.freq = freq 
         self.left = None
         self.right = None 
     
     def __lt__(self,other):
-        return self.count<other.count 
+        return self.freq<other.freq
 
 
 def build_frequency_map(s):
-    freq = {}
-
-    for ch in s:
-        freq[ch] = freq.get(ch,0)+1
+        return Counter(s)
     
-    return freq 
 
+def build_tree(s):
+    freq_map = build_frequency_map(s)
+
+    heap = []
+    for ch,count in freq_map.items():
+         heapq.heappush(heap,Node(ch,count))
+        
+    while len(heap)>1:
+         left = heapq.heappop(heap)
+         right = heapq.heappop(heap)
+
+         parent = Node("#", left.freq + right.freq)
+         parent.left = left 
+         parent.right = right
+
+         heapq.heappush(heap,parent)
+
+    return heap[0]
+
+
+def print_tree(node,indent =0):
+    if not node:
+        return 
+    print(" "*indent + f"{node.char}:{node.freq}")
+    print_tree(node.left, indent + 4)
+    print_tree(node.right, indent + 4)
+if __name__ == "__main__":
+    s = "aabbbbbcDDD"
+    root = build_tree(s)
+    print_tree(root)
